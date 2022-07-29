@@ -1,6 +1,6 @@
 const { default: mongoose } = require("mongoose");
 
-const url = "mongodb+srv://ajeet2509:Singhajeet2509@cluster0.suubfhs.mongodb.net/datasetpublisher?retryWrites=true&w=majority";
+const url = "mongodb+srv://ajeet:ajeet@cluster0.2qbmx3p.mongodb.net/DatasetPublisher?retryWrites=true&w=majority";
 
 // Promise
 

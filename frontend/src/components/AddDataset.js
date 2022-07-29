@@ -1,8 +1,9 @@
 import { Button, TextField } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { Formik } from "formik";
-// import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 import * as Yup from "yup";
+import { useNavigate } from 'react-router-dom';
 
 const AddDataset = () => {
   // 1. Create a form object which should match with model fields
@@ -10,38 +11,49 @@ const AddDataset = () => {
     title: "",
     description: "",
     size: "",
-    uploadedBy: "",
+    // uploadedBy: "",
     type: "",
     details: "",
   };
 
+
+  const [thumbnail, setThumbnail] = useState("")
   // 2. Create a function for form submission
-  const dataSubmit = (formdata) => {
-    console.log(formdata);
 
-    // to send request on backend
-    // 1. url
-    // 2. request method
-    // 3. data
-    // 4. data format
+  const navigate = useNavigate();
 
-    // fetch("http://localhost:5000/user/add", {
-    //   method: "POST",
-    //   body: JSON.stringify(formdata), //convert javascript to json
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // }).then((res) => {
-    //   if (res.status === 200) {
-    //     console.log("data saved");
-    //     Swal.fire({
-    //       icon: "success",
-    //       title: "Success",
-    //       text: "Registered Successfully!!👍",
-    //     });
-    //   }
-    // });
-  };
+  const dataSubmit = async (formdata) => {
+    formdata.thumbnail = thumbnail;
+      console.log(formdata);
+
+      // 1. address
+      // 2. request method
+      // 3. data
+      // 4. data format
+
+
+//  for creating request on backend
+      const response = await fetch('http://localhost:5000/data/add', {
+                              method: 'POST',
+                              body : JSON.stringify(formdata),
+                              headers: {
+                                  'Content-Type': 'application/json'
+                              }
+                          })
+                          
+      if(response.status === 200){
+          console.log('success');
+          Swal.fire({
+              icon : 'success',
+              title: 'Well Done 👍',
+              text: 'You have done a wonderfull Job!!'
+          })
+          navigate('/loginpage');
+      }else{
+          console.log(response.status);
+          console.log('something went wrong');
+      }
+  }
 
   //   3. use Formik component
 
@@ -56,8 +68,24 @@ const AddDataset = () => {
       .required("Description Required"),
     size: Yup.string().required("Size Required"),
     type: Yup.string().required("Type Required"),
-    upvotes: Yup.string().details("details Required"),
+    details: Yup.string().required("details Required"),
   });
+
+  const uploadFile = async (e) => {
+    const file = e.target.files[0];
+    setThumbnail(file.name);
+    const fd = new FormData();
+    fd.append('myfile', file, file.name);
+
+    const res = await fetch('http://localhost:5000/util/uploadfile', {
+      method : 'POST',
+      data : fd,
+    });
+    console.log(res.status);
+    if(res.status === 200){
+      console.log('file uploaded');
+    }
+  }
 
   return (
     <div className="container">
@@ -67,7 +95,7 @@ const AddDataset = () => {
       <Formik
         initialValues={dataForm}
         onSubmit={dataSubmit}
-        validationSchema={dataSchema}
+        // validationSchema={formSchema}
       >
         {({ handleSubmit, handleChange, values, errors, touched }) => (
           <form onSubmit={handleSubmit}>
@@ -104,7 +132,7 @@ const AddDataset = () => {
               error={Boolean(errors.size && touched.size)}
             />
 
-            <TextField
+            {/* <TextField
               label="Type"
               variant="outlined"
               className="w-100 mb-4"
@@ -113,7 +141,7 @@ const AddDataset = () => {
               value={values.type}
               helperText={touched.uploadedBy ? errors.uploadedBy : ""}
               error={Boolean(errors.uploadedBy && touched.uploadedBy)}
-            />
+            /> */}
 
             <TextField
               label="Details"
@@ -125,6 +153,8 @@ const AddDataset = () => {
               helperText={touched.details ? errors.details : ""}
               error={Boolean(errors.details && touched.details)}
             />
+
+            <input onChange={uploadFile} type="file" />
 
             <Button type="submit" variant="contained">
               Submit

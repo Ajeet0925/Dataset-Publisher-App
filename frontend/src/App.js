@@ -4,7 +4,8 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Header from './components/Header';
-import AddDataset from './components/addDataset';
+import AddDataset from './components/AddDataset';
+import Browsing from './components/Browsing';
 
 
 function App() {
@@ -21,6 +22,8 @@ function App() {
             <Route element={ <Login/> } path="loginpage" />
             <Route element={ <Signup/> } path="signup" />
             <Route element={ <AddDataset/> } path="AddDataset" />
+            <Route element={ <Browsing/> } path="browsing" />
+
           </Routes>
         </BrowserRouter>
     </div>

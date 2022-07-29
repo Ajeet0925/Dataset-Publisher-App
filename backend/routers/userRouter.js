@@ -44,5 +44,66 @@ router.get('/getall', (req, res) => {
     // res.send('response from user router at getall');
 });
 
+router.get('/checkemail/:useremail', (req, res) => {
+    
+    // to fetch client data from get request
+    console.log(req.params.useremail);
+    
+    Model.findOne({email : req.params.useremail})
+    .then((result) => {
+        console.log(result);
+        res.json(result);
+    }).catch((err) => {
+        console.error(err);
+        res.json(err);
+    });
+})
+
+router.get('/getbyid/:userid', (req, res) => {
+    
+    Model.findById( req.params.userid )
+    .then((result) => {
+        res.json(result);
+    }).catch((err) => {
+        console.error(err);
+        res.json(err);
+    });
+})
+
+
+router.delete('/delete/:userid', (req, res) => {
+    Model.findByIdAndDelete( req.params.userid )
+    .then((result) => {
+        res.json(result);
+    }).catch((err) => {
+        console.error(err);
+        res.json(err);
+    });
+})
+
+router.put('/update/:userid', (req, res) => {
+    Model.findByIdAndUpdate(req.params.userid, req.body, {new : true})
+    .then((result) => {
+        res.json(result);
+    }).catch((err) => {
+        console.error(err);
+        res.json(err);
+    });
+})
+
+router.post( '/authenticate', (req,res)  => {
+    Model.findOne({email : req.body.email, password : req.body.password})
+    .then((userdata) => {
+        if(userdata){
+            res.status(200).json(userdata);
+        }else{
+            res.status(300).json({message : 'Invalid Credentials'});
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+        res.json(err);
+    });
+});
 
 module.exports = router;

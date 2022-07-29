@@ -6,3 +6,18 @@
 //4. function should exported in order to add in app.js
 //5.js 6 rules will be followed
 
+import React from "react";
+
+const Home = () => {
+  return (
+    <div>
+     
+   <form>
+    <h1>Home</h1>
+   </form>
+
+    </div>
+  );
+};
+
+export default Home;
