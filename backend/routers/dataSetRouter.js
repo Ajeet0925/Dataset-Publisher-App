@@ -37,19 +37,9 @@ router.get('/getall', (req, res) => {
     // res.send('response from dataSet router at getall');
 });
 
-
-router.delete('/delete/:dataid', (req, res) => {
-    Model.findByIdAndDelete( req.params.dataid )
-    .then((result) => {
-        res.json(result);
-    }).catch((err) => {
-        console.error(err);
-        res.json(err);
-    });
-})
-
-router.put('/update/:dataid', (req, res) => {
-    Model.findByIdAndUpdate(req.params.dataid, req.body, {new : true})
+router.get('/getbyid/:dataid', (req, res) => {
+    
+    Model.findById( req.params.dataid )
     .then((result) => {
         res.json(result);
     }).catch((err) => {

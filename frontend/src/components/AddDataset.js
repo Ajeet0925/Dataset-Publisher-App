@@ -1,12 +1,14 @@
-import { Button, TextField } from "@mui/material"
-import React, { useState } from "react"
-import { Formik } from "formik"
-import Swal from "sweetalert2"
-import * as Yup from "yup"
-import { useNavigate } from "react-router-dom"
+import { Button, TextField } from "@mui/material";
+import React, { useState } from "react";
+import { Formik } from "formik";
+import Swal from "sweetalert2";
+import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 
 const AddDataset = () => {
-  const [currentUser, setCurrentUser] = useState(JSON.parse(sessionStorage.getItem("user")))
+  const [currentUser, setCurrentUser] = useState(
+    JSON.parse(sessionStorage.getItem("user"))
+  );
   const [thumbnail, setThumbnail] = useState("");
   const [selFile, setSelFile] = useState("");
 
@@ -18,16 +20,16 @@ const AddDataset = () => {
     uploadedBy: currentUser._id,
     type: "",
     details: "",
-    thumbnail : "",
+    thumbnail: "",
     createdAt: new Date(),
-  }
+  };
   // 2. Create a function for form submission
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const dataSubmit = async (formdata) => {
-    formdata.thumbnail = thumbnail
-    console.log(formdata)
+    formdata.thumbnail = thumbnail;
+    console.log(formdata);
 
     // 1. address
     // 2. request method
@@ -41,47 +43,53 @@ const AddDataset = () => {
       headers: {
         "Content-Type": "application/json",
       },
-    })
+    });
 
     if (response.status === 200) {
-      console.log("success")
+      console.log("success");
       Swal.fire({
         icon: "success",
         title: "Well Done 👍",
         text: "You have done a wonderfull Job!!",
-      })
-      navigate("/loginpage")
+      });
+      navigate("/loginpage");
     } else {
-      console.log(response.status)
-      console.log("something went wrong")
+      console.log(response.status);
+      console.log("something went wrong");
     }
-  }
+  };
 
   //   3. use Formik component
 
   const formSchema = Yup.object().shape({
-    title: Yup.string().min(5, "Too Short Title!").max(10, "Too Long Title!").required("Title is Required"),
-    description: Yup.string().min(10, "Too Short Title!").max(20, "Too Long Title!").required("Description Required"),
+    title: Yup.string()
+      .min(5, "Too Short Title!")
+      .max(10, "Too Long Title!")
+      .required("Title is Required"),
+    description: Yup.string()
+      .min(10, "Too Short Title!")
+      .max(20, "Too Long Title!")
+      .required("Description Required"),
     size: Yup.string().required("Size Required"),
     type: Yup.string().required("Type Required"),
     details: Yup.string().required("details Required"),
-  })
+  });
 
   const uploadFile = async (e) => {
-    const file = e.target.files[0]
-    setThumbnail(file.name)
-    const fd = new FormData()
-    fd.append("myfile", file, file.name)
+    const file = e.target.files[0];
+    setThumbnail(file.name);
+    const fd = new FormData();
+    fd.append("myfile", file, file.name);
 
     const res = await fetch("http://localhost:5000/util/uploadfile", {
       method: "POST",
       data: fd,
-    })
-    console.log(res.status)
+    });
+    console.log(res.status);
     if (res.status === 200) {
-      console.log("file uploaded")
+      console.log("file uploaded");
     }
-  }
+  };
 
   const uploadThumbnail = (e) => {
     const file = e.target.files[0];
@@ -92,12 +100,12 @@ const AddDataset = () => {
       method: "POST",
       body: fd,
     }).then((res) => {
-      console.log(res.status)
+      console.log(res.status);
       if (res.status === 200) {
-        console.log("uploaded")
+        console.log("uploaded");
       }
-    })
-  }
+    });
+  };
 
   return (
     <div className="container">
@@ -179,9 +187,9 @@ const AddDataset = () => {
         )}
       </Formik>
     </div>
-  )
-}
+  );
+};
 
 // formik
 
-export default AddDataset
+export default AddDataset;

@@ -37,8 +37,7 @@ const Login = () => {
         console.log(data);
         navigate("/AddDataset");
         sessionStorage.setItem("user", JSON.stringify(data));
-      })
-
+      });
     } else {
       console.log(response.status);
       console.log("something went wrong");
@@ -104,8 +103,6 @@ const Login = () => {
                       >
                         Login Now
                       </Button>
-
-                      
                     </div>
                   </form>
                 )}

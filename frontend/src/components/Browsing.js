@@ -1,74 +1,72 @@
-import React, { useEffect, useState } from "react"
-import { Card, CardContent, CardMedia, Container, Grid, Paper, TextField, Typography } from "@mui/material"
-import Swal from "sweetalert2"
-import { Link } from "react-router-dom"
+import React, { useEffect, useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Container,
+  Grid,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const Browsing = () => {
-  const [userArray, setDataArray] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [userArray, setDataArray] = useState([]);
+  const [loading, setLoading] = useState(false);
   const url = "http://localhost:5000";
 
-  const [showUpdateForm, setShowUpdateForm] = useState(false)
-  const [updateFormData, setUpdateFormData] = useState(null)
-
   const getDataFromBackend = async () => {
-    setLoading(true)
+    setLoading(true);
 
-    const response = await fetch("http://localhost:5000/data/getall")
-    const data = await response.json()
+    const response = await fetch("http://localhost:5000/data/getall");
+    const data = await response.json();
 
-    console.log(data)
-    setDataArray(data)
-    setLoading(false)
-  }
-
-  const updateData = (data) => {
-    console.log(data)
-    setUpdateFormData(data)
-    setShowUpdateForm(true)
-  }
-
-  const deleteData = async (id) => {
-    console.log(id)
-
-    const response = await fetch("http://localhost:5000/data/delete/" + id, {
-      method: "DELETE",
-    })
-
-    if (response.status === 200) {
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "User deleted successfully",
-      })
-      // to get data from backend again
-      getDataFromBackend()
-    }
-  }
+    console.log(data);
+    setDataArray(data);
+    setLoading(false);
+  };
 
   const displayData = () => {
     if (!loading) {
-      return userArray.map(({ _id,title, description, size, type, details, thumbnail, upvotes }) => (
-        <Grid item md={3} sm={3} xs={12}>
-          <Card>
-            <CardMedia component="img" image={url+'/'+thumbnail} height={180} />
-            <CardContent>
-              <Typography variant="h5">
-                {title},{description},{size},{type},{details},{upvotes}
-              </Typography>
+      return userArray.map(
+        ({
+          _id,
+          title,
+          description,
+          size,
+          type,
+          details,
+          thumbnail,
+          upvotes,
+        }) => (
+          <Grid item md={3} sm={3} xs={12}>
+            <Card>
+              <CardMedia
+                component="img"
+                image={url + "/" + thumbnail}
+                height={180}
+              />
+              <CardContent>
+                <Typography variant="h5">
+                  {title},{description},{size},{type},{details},{upvotes}
+                </Typography>
 
-              <Link className="btn btn-primary" to={"/view/"+_id}>View More</Link>
-            </CardContent>
-          </Card>
-          
-        </Grid>
-      ))
+                <Link className="btn btn-primary" to={"/view/" + _id}>
+                  View More
+                </Link>
+              </CardContent>
+            </Card>
+          </Grid>
+        )
+      );
     }
-  }
+  };
 
   useEffect(() => {
-    getDataFromBackend()
-  }, [])
+    getDataFromBackend();
+  }, []);
 
   return (
     <div>
@@ -91,16 +89,8 @@ const Browsing = () => {
           </Container>
         </section>
       </Paper>
-
-      {showUpdateForm ? (
-        <div className="col-md">
-          {/* <UpdateData updateFormData = {updateFormData} setShowUpdateForm={setShowUpdateForm} getDataFromBackend={getDataFromBackend} /> */}
-        </div>
-      ) : (
-        ""
-      )}
     </div>
-  )
-}
+  );
+};
 
-export default Browsing
+export default Browsing;
