@@ -6,6 +6,7 @@ import Signup from './components/Signup';
 import Header from './components/Header';
 import AddDataset from './components/AddDataset';
 import Browsing from './components/Browsing';
+import ViewDataset from './components/ViewDataset';
 
 
 function App() {
@@ -13,9 +14,7 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-      <Header>
-
-      </Header>
+      <Header />
           <Routes>
             <Route element={ <Home/> } path="/" />
             <Route element={ <Home/> } path="homepage" />
@@ -23,6 +22,7 @@ function App() {
             <Route element={ <Signup/> } path="signup" />
             <Route element={ <AddDataset/> } path="AddDataset" />
             <Route element={ <Browsing/> } path="browsing" />
+            <Route element={ <ViewDataset/> } path="view/:id" />
 
           </Routes>
         </BrowserRouter>

@@ -32,6 +32,13 @@ const Login = () => {
         title: "Well Done 👍",
         text: "You have done a wonderfull Job!!",
       });
+
+      response.json().then((data) => {
+        console.log(data);
+        navigate("/AddDataset");
+        sessionStorage.setItem("user", JSON.stringify(data));
+      })
+
     } else {
       console.log(response.status);
       console.log("something went wrong");

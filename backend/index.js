@@ -22,6 +22,8 @@ app.use("/user", userRouter)
 app.use("/data", dataSetRouter)
 app.use("/util", util)
 
+app.use(express.static('./static/uploads'))
+
 // route or endpoint
 app.get('/', (request, response) => {
     response.send("response from express");
