@@ -10,7 +10,7 @@ const AddDataset = () => {
     JSON.parse(sessionStorage.getItem("user"))
   );
   const [thumbnail, setThumbnail] = useState("");
-  const [selFile, setSelFile] = useState("");
+  const [filedata, setFiledata] = useState("");
 
   // 1. Create a form object which should match with model fields
   const dataForm = {
@@ -21,6 +21,7 @@ const AddDataset = () => {
     type: "",
     details: "",
     thumbnail: "",
+    filedata: "",
     createdAt: new Date(),
   };
   // 2. Create a function for form submission
@@ -29,6 +30,7 @@ const AddDataset = () => {
 
   const dataSubmit = async (formdata) => {
     formdata.thumbnail = thumbnail;
+    formdata.datafile = filedata;
     console.log(formdata);
 
     // 1. address
@@ -75,9 +77,9 @@ const AddDataset = () => {
     details: Yup.string().required("details Required"),
   });
 
-  const uploadFile = async (e) => {
+  const uploadFiledata = async (e) => {
     const file = e.target.files[0];
-    setThumbnail(file.name);
+    setFiledata(file.name);
     const fd = new FormData();
     fd.append("myfile", file, file.name);
 
@@ -87,7 +89,7 @@ const AddDataset = () => {
     });
     console.log(res.status);
     if (res.status === 200) {
-      console.log("file uploaded");
+      console.log("File uploaded");
     }
   };
 
@@ -102,7 +104,7 @@ const AddDataset = () => {
     }).then((res) => {
       console.log(res.status);
       if (res.status === 200) {
-        console.log("uploaded");
+        console.log(" Thumbnail uploaded");
       }
     });
   };
@@ -178,7 +180,7 @@ const AddDataset = () => {
             <input onChange={uploadThumbnail} type="file" />
 
             <label>Upload File</label>
-            <input onChange={uploadFile} type="file" />
+            <input onChange={uploadFiledata} type="file" />
 
             <Button type="submit" variant="contained">
               Submit

@@ -39,7 +39,7 @@ router.get('/getall', (req, res) => {
 
 router.get('/getbyid/:dataid', (req, res) => {
     
-    Model.findById( req.params.dataid )
+    Model.findById( req.params.dataid ).populate('uploadedBy')
     .then((result) => {
         res.json(result);
     }).catch((err) => {

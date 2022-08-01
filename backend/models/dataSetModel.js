@@ -9,6 +9,7 @@ const schema = new Schema({
     type : String,
     details : String,
     thumbnail : String,
+    filedata : String,
     upvotes : {type : Number, default : 0},
     createdAt : Date,
     
